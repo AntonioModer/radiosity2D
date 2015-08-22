@@ -1,5 +1,5 @@
-![Image not found](https://raw.githubusercontent.com/AntonioModer/radiosity2D/to-shaders/sreenshot%20CPU.png)
-![Image not found](https://raw.githubusercontent.com/AntonioModer/radiosity2D/to-shaders/sreenshot%20GPU.png)
+﻿![Image not found](https://raw.githubusercontent.com/AntonioModer/radiosity2D/master/sreenshot%20CPU.png)
+![Image not found](https://raw.githubusercontent.com/AntonioModer/radiosity2D/master/sreenshot%20GPU.png)
 # "Realtime global 2D-radiosity"
 Can compute on CPU or GPU.
 
