@@ -135,7 +135,6 @@ function love.load(arg)
 	-- light energy to color = light energy * 2.55
 	
 	emit = require('emit')
-	emitDirectionalLight = require('emitDirectionalLight')
 	givele = require('givele')
 	takele = require('takele')
 	
