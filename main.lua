@@ -1,5 +1,6 @@
 --[[
 TODO:
+	- при столкновении с препятствием, отдавать часть энергии этому припятствию
 	+ to shaders
 		+ load matrix, info: light, obstacles
 	+ необходимо просчитывать за 2 основных прохода:
@@ -114,12 +115,12 @@ function love.load(arg)
 	end
 	
 	w = {}															-- world
-	w.size = 128													-- def = 128
+	w.size = 1024													-- def = 128
 --	w.diag = true													-- diagonal; best false
 	w.imd = love.image.newImageData(w.size, w.size)					-- light result
 	w.imdDebug = love.image.newImageData(w.size, w.size)
-	w.imdObs = love.image.newImageData('obstacles.png')
-	w.imdLS = love.image.newImageData('lightSource.png')
+	w.imdObs = love.image.newImageData('obstaclesBig.png')
+	w.imdLS = love.image.newImageData('lightSourceBig.png')
 	w.im = love.graphics.newImage(w.imd)							-- draw light result
 	w.im:setFilter('nearest', 'nearest')
 	w.imDebug = love.graphics.newImage(w.imdDebug)
@@ -162,9 +163,9 @@ function love.load(arg)
 	w.shader.main = love.graphics.newShader('main.glsl')
 	w.shader.toBaW = love.graphics.newShader('toBaW.glsl')			-- to black and white
 	w.shader.canvas = {}
-	w.shader.canvas[1] = love.graphics.newCanvas(w.size, w.size)
+	w.shader.canvas[1] = love.graphics.newCanvas(w.size, w.size, 'hdr')
 	w.shader.canvas[1]:setFilter('nearest', 'nearest')
-	w.shader.canvas[2] = love.graphics.newCanvas(w.size, w.size)
+	w.shader.canvas[2] = love.graphics.newCanvas(w.size, w.size, 'hdr')
 	w.shader.canvas[2]:setFilter('nearest', 'nearest')
 	w.shader.canvas.i = 1
 	
@@ -302,8 +303,6 @@ function love.keypressed(key)
 	end
 end
 
-
-
 function love.update(dt)
 	
 --	emit(w[w.ls.x][w.ls.y])
@@ -317,8 +316,8 @@ function love.update(dt)
 --		for x=0, w.size-1 do--for x=16, 35 do
 --			for y=0, w.size-1 do--for y=97, 111 do
 --				if 1 then
-----					w[x][y]:emit({1, 2, 3, 4, 5, 6, 7, 8}, 5, 'take')
---					w[x][y]:emit({2}, 5, 'take')
+--					w[x][y]:emit({1, 2, 3, 4, 5, 6, 7, 8}, 5, 'take')
+----					w[x][y]:emit({2}, 5, 'take')
 ----					emitDirectionalLight(w[x][y], {1, 2, 3, 4, 5, 6, 7, 8}, 5)
 ----					emitDirectionalLight(w[x][y], {8, 7, 6, 5, 4, 1, 3}, 5)
 --					w.i = w.i+1
@@ -363,42 +362,49 @@ function love.update(dt)
 	-- test ----------------------------------
 
 end
-
+	
 function love.draw()
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(w.backg)
+	love.graphics.draw(w.backg, 0, 0, 0, math.nSA(1024/800, 0.01))
 	
 	---------------------------------------
 	love.graphics.setColor(255, 255, 255, 255)
 	
+	-- shader
 	if w.shader.canvas.i >= 2 then w.shader.canvas.i = 0 end
 	w.shader.canvas.i = w.shader.canvas.i + 1
 	
 	love.graphics.setShader(w.shader.main)
 	love.graphics.setCanvas(w.shader.canvas[w.shader.canvas.i])
+	
 	if w.shader.canvas.i == 1 then
 		love.graphics.draw(w.shader.canvas[2])
 	else
 		love.graphics.draw(w.shader.canvas[1])
 	end
+--	if love.mouse.isDown('l') then
+--		love.graphics.setColor(0, 0, 0, 255)
+--		love.graphics.circle('fill', love.mouse.getX()*1.5, love.mouse.getY()*1.5, 10)	
+--	end	
 	love.graphics.setCanvas()
 	love.graphics.setShader()
 	
 	love.graphics.setShader(w.shader.toBaW)
-	love.graphics.draw(w.shader.canvas[w.shader.canvas.i], 0, 0, 0, math.floor(600/w.size))
+	love.graphics.draw(w.shader.canvas[w.shader.canvas.i], 0, 0, 0, math.nSA(720/w.size, 0.1))
 	love.graphics.setShader()
+--	---------
 	
---	love.graphics.draw(w.im, 0, 0, 0, math.floor(600/w.size))
+	love.graphics.draw(w.im, 0, 0, 0, math.floor(600/w.size))
 	love.graphics.draw(w.imDebug, 0, 0, 0, math.floor(600/w.size))
 	
 --	love.timer.sleep(5)
 	---------------------------------------
 	
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.print('FPS: '..love.timer.getFPS(), 600, 10)
-	love.graphics.print('Press SPACEBAR for reset', 600, 23)
-	love.graphics.print('w.i: '..w.i, 600, 34)
-	love.graphics.print('w.iEmits: '..w.iEmits, 600, 47)
-	love.graphics.print('w.iEmitsPast: '..w.iEmitsPast, 600, 60)
+	love.graphics.print('FPS: '..love.timer.getFPS(), 800, 10)
+	love.graphics.print('Press SPACEBAR for reset', 800, 23)
+	love.graphics.print('w.i: '..w.i, 800, 34)
+	love.graphics.print('w.iEmits: '..w.iEmits, 800, 47)
+	love.graphics.print('w.iEmitsPast: '..w.iEmitsPast, 800, 60)
 	
 end
