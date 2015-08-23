@@ -9,3 +9,8 @@ Forum: https://love2d.org/forums/viewtopic.php?f=5&t=80762
 
 zlib License
 
+Plans:
+* demo
+* Optimization
+* Integration into my game-engine
+
