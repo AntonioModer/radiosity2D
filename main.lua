@@ -115,7 +115,7 @@ function love.load(arg)
 	end
 	
 	w = {}															-- world
-	w.size = 1024													-- def = 128
+	w.size = 2048													-- def = 128
 --	w.diag = true													-- diagonal; best false
 	w.imd = love.image.newImageData(w.size, w.size)					-- light result
 	w.imdDebug = love.image.newImageData(w.size, w.size)
@@ -390,7 +390,7 @@ function love.draw()
 	love.graphics.setShader()
 	
 	love.graphics.setShader(w.shader.toBaW)
-	love.graphics.draw(w.shader.canvas[w.shader.canvas.i], 0, 0, 0, math.nSA(720/w.size, 0.1))
+	love.graphics.draw(w.shader.canvas[w.shader.canvas.i], 0, 0, 0, 4)--math.nSA(720/w.size, 0.1))
 	love.graphics.setShader()
 --	---------
 	
@@ -400,11 +400,17 @@ function love.draw()
 --	love.timer.sleep(5)
 	---------------------------------------
 	
+
 	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.rectangle('fill', 800-5, 10-5, 200, 80)
+	love.graphics.setColor(0, 0, 0, 255)	
 	love.graphics.print('FPS: '..love.timer.getFPS(), 800, 10)
 	love.graphics.print('Press SPACEBAR for reset', 800, 23)
 	love.graphics.print('w.i: '..w.i, 800, 34)
 	love.graphics.print('w.iEmits: '..w.iEmits, 800, 47)
 	love.graphics.print('w.iEmitsPast: '..w.iEmitsPast, 800, 60)
+	
+	
+
 	
 end
