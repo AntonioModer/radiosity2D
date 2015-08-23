@@ -33,7 +33,7 @@
 
 //extern Image matrix;
 //extern Image light, obstacles;
-//int iEmits = 1, iEmitsPast = 0;
+int iEmits = 1, iEmitsPast = 0;
 number textureSize = 2048.0-1.0;
 
 /*
@@ -172,6 +172,7 @@ vec4 emit(Image matrix, vec2 cellNormCoord, number lowPow) {
 		}
 	}
 /**/
+	iEmits++;
 	
 	return cellColor;
 }
@@ -179,9 +180,14 @@ vec4 emit(Image matrix, vec2 cellNormCoord, number lowPow) {
 vec4 effect(vec4 color, Image texture, vec2 texCoord, vec2 screenCoord) {
 	vec4 pixel = Texel(texture, texCoord);										// This is the current pixel color
 	
-	if ((screenCoord.x < love_ScreenSize.x/14.0) || (screenCoord.y < love_ScreenSize.y/14.0)) {
-		pixel = emit(texture, texCoord, 0.01);
-	}
+	//if ((screenCoord.x > love_ScreenSize.x/14.0) || (screenCoord.y > love_ScreenSize.y/14.0)) {
+		//return pixel;
+	//}
+	
+	if ( iEmits > iEmitsPast ) {											// optimization
+		iEmitsPast = iEmits;	
+		pixel = emit(texture, texCoord, 0.005);
+	}	
 	
 	return pixel;
 }

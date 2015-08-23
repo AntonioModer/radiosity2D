@@ -134,6 +134,8 @@ function love.load(arg)
 	w.loadLight = true
 	w.loadObs = true
 	-- light energy to color = light energy * 2.55
+	w.timer = {}
+	w.timer.draw = {}
 	
 	emit = require('emit')
 	givele = require('givele')
@@ -360,7 +362,7 @@ function love.update(dt)
 --	end
 
 	-- test ----------------------------------
-
+--	print(math.sin(love.timer.getTime() * 0.8) * 0.5 + 0.5)
 end
 	
 function love.draw()
@@ -371,6 +373,8 @@ function love.draw()
 	love.graphics.setColor(255, 255, 255, 255)
 	
 	-- shader
+	w.timer.draw.s = love.timer.getTime()
+	
 	if w.shader.canvas.i >= 2 then w.shader.canvas.i = 0 end
 	w.shader.canvas.i = w.shader.canvas.i + 1
 	
@@ -389,9 +393,12 @@ function love.draw()
 	love.graphics.setCanvas()
 	love.graphics.setShader()
 	
+	w.shader.toBaW:send('brightness', math.sin(love.timer.getTime() * 0.8) * 0.5 + 0.5)
 	love.graphics.setShader(w.shader.toBaW)
 	love.graphics.draw(w.shader.canvas[w.shader.canvas.i], 0, 0, 0, 4)--math.nSA(720/w.size, 0.1))
 	love.graphics.setShader()
+	
+	w.timer.draw.res = love.timer.getTime() - w.timer.draw.s
 --	---------
 	
 	love.graphics.draw(w.im, 0, 0, 0, math.floor(600/w.size))
@@ -402,13 +409,14 @@ function love.draw()
 	
 
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.rectangle('fill', 800-5, 10-5, 200, 80)
+	love.graphics.rectangle('fill', 800-5, 10-5, 200, 90)
 	love.graphics.setColor(0, 0, 0, 255)	
 	love.graphics.print('FPS: '..love.timer.getFPS(), 800, 10)
 	love.graphics.print('Press SPACEBAR for reset', 800, 23)
 	love.graphics.print('w.i: '..w.i, 800, 34)
 	love.graphics.print('w.iEmits: '..w.iEmits, 800, 47)
 	love.graphics.print('w.iEmitsPast: '..w.iEmitsPast, 800, 60)
+	love.graphics.print('w.timer.draw: '..w.timer.draw.res*1000, 800, 73)
 	
 	
 
