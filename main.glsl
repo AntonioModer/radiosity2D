@@ -83,26 +83,26 @@ vec4 emit(Image matrix, vec2 cellNormCoord, number lowPow) {
 	vec4 cccColor;																	// current compute cell
 	vec2 cccNormCoord;
 	vec2 cellMatrixCoord = vec2(textureSize*cellNormCoord.x, textureSize*cellNormCoord.y);
-/*
+/**/
 	// 1
 	if ( (cellMatrixCoord.x-1.0 > -1.0) && (cellMatrixCoord.y-1.0 > -1.0) ) {
 		cccNormCoord = vec2((cellMatrixCoord.x-1.0)/textureSize, (cellMatrixCoord.y-1.0)/textureSize);
 		cccColor = Texel(matrix, cccNormCoord);															// [cell.x-1][cell.y-1]
 		if (cccColor.r > 0.0) {																			// ccc.on
-			cellColor.b = takele(cccColor.b, cellColor.b, lowPow*11);
+			cellColor.b = takele(cccColor.b, cellColor.b, lowPow*15);
 		} else {
 			
 		}
 	}
-*/	
+	
 	// 2
 	if (cellMatrixCoord.y-1.0 > -1.0) {
 		cccNormCoord = vec2(cellNormCoord.x, (cellMatrixCoord.y-1.0)/textureSize);
 		cccColor = Texel(matrix, cccNormCoord);										// [cell.x][cell.y-1]
 		if (cccColor.r > 0.0) {														// ccc.on
-			cellColor.b = takele(cccColor.b, cellColor.b, lowPow);
+			cellColor.b = takele(cccColor.b, cellColor.b, lowPow*5);
 		} else {
-			
+			cellColor.b = 0;
 		}
 	}
 /*
@@ -111,7 +111,7 @@ vec4 emit(Image matrix, vec2 cellNormCoord, number lowPow) {
 		cccNormCoord = vec2((cellMatrixCoord.x+1.0)/textureSize, (cellMatrixCoord.y-1.0)/textureSize);
 		cccColor = Texel(matrix, cccNormCoord);															// [cell.x+1][cell.y-1]
 		if (cccColor.r > 0.0) {																			// ccc.on
-			cellColor.b = takele(cccColor.b, cellColor.b, lowPow*1.4);
+			cellColor.b = takele(cccColor.b, cellColor.b, lowPow*1.4142);
 		} else {
 			
 		}
@@ -124,7 +124,7 @@ vec4 emit(Image matrix, vec2 cellNormCoord, number lowPow) {
 		if (cccColor.r > 0.0) {														// ccc.on
 			cellColor.b = takele(cccColor.b, cellColor.b, lowPow);
 		} else {
-			
+			cellColor.b = 0;
 		}
 	}
 /*
@@ -133,7 +133,7 @@ vec4 emit(Image matrix, vec2 cellNormCoord, number lowPow) {
 		cccNormCoord = vec2((cellMatrixCoord.x+1.0)/textureSize, (cellMatrixCoord.y+1.0)/textureSize);
 		cccColor = Texel(matrix, cccNormCoord);															// [cell.x+1][cell.y+1]
 		if (cccColor.r > 0.0) {																			// ccc.on
-			cellColor.b = takele(cccColor.b, cellColor.b, lowPow*1.4);
+			cellColor.b = takele(cccColor.b, cellColor.b, lowPow*1.4142);
 		} else {
 			
 		}
@@ -144,23 +144,23 @@ vec4 emit(Image matrix, vec2 cellNormCoord, number lowPow) {
 		cccNormCoord = vec2(cellNormCoord.x, (cellMatrixCoord.y+1.0)/textureSize);
 		cccColor = Texel(matrix, cccNormCoord);										// [cell.x][cell.y+1]
 		if (cccColor.r > 0.0) {														// ccc.on
-			cellColor.b = takele(cccColor.b, cellColor.b, lowPow);
+			cellColor.b = takele(cccColor.b, cellColor.b, lowPow*5);
 		} else {
-			
+			cellColor.b = 0;
 		}
 	}
-/*
+/**/
 	// 7
 	if ( (cellMatrixCoord.x-1.0 > -1) && (cellMatrixCoord.y+1 < textureSize) ) {
 		cccNormCoord = vec2((cellMatrixCoord.x-1.0)/textureSize, (cellMatrixCoord.y+1.0)/textureSize);
 		cccColor = Texel(matrix, cccNormCoord);															// [cell.x-1][cell.y+1]
 		if (cccColor.r > 0.0) {																			// ccc.on
-			cellColor.b = takele(cccColor.b, cellColor.b, lowPow*11);
+			cellColor.b = takele(cccColor.b, cellColor.b, lowPow*15);
 		} else {
 			
 		}
 	}
-*/
+
 	// 8
 	if (cellMatrixCoord.x-1 > -1) {
 		cccNormCoord = vec2((cellMatrixCoord.x-1.0)/textureSize, cellNormCoord.y);
@@ -168,7 +168,7 @@ vec4 emit(Image matrix, vec2 cellNormCoord, number lowPow) {
 		if (cccColor.r > 0.0) {														// ccc.on
 			cellColor.b = takele(cccColor.b, cellColor.b, lowPow*10);
 		} else {
-			
+			cellColor.b = 0;
 		}
 	}	 	
 /**/
