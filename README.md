@@ -3,7 +3,7 @@
 # "Realtime global 2D-radiosity"
 Can compute on CPU or GPU.
 
-To run it is necessary to use the LÖVE 0.9.2: https://love2d.org
+To run it is necessary to use the LÖVE 0.9.2: https://github.com/love2d/love/releases/tag/0.9.2
 
 Forum: https://love2d.org/forums/viewtopic.php?f=5&t=80762
 
